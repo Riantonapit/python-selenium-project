@@ -10,12 +10,6 @@ pipeline {
         PYTHONDONTWRITEBYTECODE = '1'
     }
     stages {
-        stage('Clean Workspace') {
-    steps {
-        deleteDir()
-    }
-}
-
         stage('Install Dependencies') {
             steps {
                 sh 'python -m pip install --upgrade pip'
@@ -30,4 +24,3 @@ pipeline {
         }
     }
 }
-
