@@ -1,40 +1,24 @@
 pipeline {
-    agent any
-
-    environment {
-        IMAGE_NAME = 'selenium-python-test'
+    agent {
+        docker {
+            image 'python:3.10'
+        }
     }
-
     stages {
-        stage('Checkout') {
+        stage('Clone') {
             steps {
-                git 'https://github.com/USERNAME/python-selenium-project.git'
+                git 'https://github.com/Riantonapit/python-selenium-project.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Install Dependencies') {
             steps {
-                script {
-                    sh "docker build -t $IMAGE_NAME ."
-                }
+                sh 'pip install -r requirements.txt'
             }
         }
-
-        stage('Run Tests in Docker') {
+        stage('Run Tests') {
             steps {
-                script {
-                    sh "docker run --rm $IMAGE_NAME"
-                }
+                sh 'pytest tests/'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline selesai dijalankan.'
-        }
-        failure {
-            echo 'Pipeline gagal.'
         }
     }
 }
