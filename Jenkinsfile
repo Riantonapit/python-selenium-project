@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'python:3.10'
-            args '-u root' // agar bisa install dependensi jika perlu
+            args '-u root' // agar bisa install dependensi
         }
     }
     environment {
@@ -10,11 +10,11 @@ pipeline {
         PYTHONDONTWRITEBYTECODE = '1'
     }
     stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/Riantonapit/python-selenium-project.git'
-            }
-        }
+        stage('Clean Workspace') {
+    steps {
+        deleteDir()
+    }
+}
 
         stage('Install Dependencies') {
             steps {
@@ -30,3 +30,4 @@ pipeline {
         }
     }
 }
+
